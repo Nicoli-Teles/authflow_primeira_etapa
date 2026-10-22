@@ -1,0 +1,70 @@
+services:
+  nginx:
+    image: nginx:1.27-alpine
+    ports: ["8080:80"]
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./frontend:/usr/share/nginx/html:ro
+    depends_on: [service-a]
+    networks: [appnet]
+    restart: unless-stopped
+
+  service-a:
+    build: ./service_a
+    environment:
+      TZ: America/Sao_Paulo
+      DATABASE_PATH: /data/users.db
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USER: ${RABBITMQ_USER:-appuser}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-change_this_local_password}
+      RABBITMQ_QUEUE: welcome_emails
+      PYTHONUNBUFFERED: "1"
+    volumes: [users-data:/data]
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks: [appnet]
+    restart: unless-stopped
+
+  service-b:
+    build: ./service_b
+    environment:
+      TZ: America/Sao_Paulo
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USER: ${RABBITMQ_USER:-appuser}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-change_this_local_password}
+      RABBITMQ_QUEUE: welcome_emails
+      SMTP_ENABLED: ${SMTP_ENABLED:-false}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      SMTP_USE_TLS: ${SMTP_USE_TLS:-true}
+      PYTHONUNBUFFERED: "1"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks: [appnet]
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-appuser}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-change_this_local_password}
+    volumes: [rabbitmq-data:/var/lib/rabbitmq]
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [appnet]
+    restart: unless-stopped
+
+networks:
+  appnet:
+    driver: bridge
+volumes:
+  users-data:
+  rabbitmq-data:
