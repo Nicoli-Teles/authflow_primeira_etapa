@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 
 class WelcomeEventPublisher:
-    def publish_user_registered(self, event):
+    def publish_event(self, event):
         credentials = pika.PlainCredentials(
             os.getenv("RABBITMQ_USER", "appuser"),
             os.getenv(

@@ -18,7 +18,7 @@ class AuthService:
         user = self.repository.create(name, email, generate_password_hash(password))
         event = {"event_id": str(uuid.uuid4()), "event_type": "user_registered", "user_id": user.id, "name": user.name, "email": user.email}
         try:
-            self.publisher.publish_user_registered(event)
+            self.publisher.publish_event(event)
             queued = True
         except Exception:
             queued = False
@@ -26,9 +26,42 @@ class AuthService:
         log.info("user_registered user_id=%s event_id=%s queued=%s", user.id, event["event_id"], queued)
         return {"id": user.id, "name": user.name, "email": user.email, "welcome_email_queued": queued,
                 "message": "Conta criada! Evento enviado para a fila." if queued else "Conta criada, mas não foi possível publicar o e-mail de boas-vindas."}
+    
     def login(self, email, password):
-        user = self.repository.find_by_email((email or "").strip().lower())
-        if not user or not check_password_hash(user.password_hash, password or ""):
+        user = self.repository.find_by_email(
+            (email or "").strip().lower()
+        )
+
+        if not user or not check_password_hash(
+            user.password_hash, password or ""
+        ):
             raise PermissionError("E-mail ou senha incorretos.")
+
         log.info("login_success user_id=%s", user.id)
-        return {"id": user.id, "name": user.name, "email": user.email, "message": f"Olá, {user.name}! Login realizado com sucesso."}
+
+        event = {
+            "event_id": str(uuid.uuid4()),
+            "event_type": "user_logged_in",
+            "user_id": user.id,
+            "name": user.name,
+            "email": user.email
+        }
+
+        try:
+            self.publisher.publish_event(event)
+            email_queued = True
+        except Exception:
+            email_queued = False
+            log.exception(
+                "login_event_publish_failed user_id=%s",
+                user.id
+            )
+
+        return {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "login_email_queued": email_queued,
+            "message": f"Olá, {user.name}! Login realizado com sucesso."
+        }
+
