@@ -1,26 +1,280 @@
+
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#173f35"><title>AuthFlow | Acesso seguro</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css"><script src="https://unpkg.com/lucide@latest"></script><script defer src="/app.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="theme-color" content="#173f35">
+
+    <title>AuthFlow | Acesso seguro</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="/styles.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="module" src="/js/auth.js"></script>
 </head>
-<body><main class="shell">
-<section class="brand-panel">
-<a class="brand" href="/"><span class="brand-mark"><i data-lucide="sprout"></i></span><span>auth<span class="brand-light">flow</span></span></a>
-<div class="brand-copy"><span class="eyebrow"><span class="eyebrow-dot"></span> SIMPLES. SEGURO. CONECTADO.</span><h1>Seu próximo<br>começo <em>começa aqui.</em></h1><p>Uma experiência de acesso pensada para ser simples, segura e feita para você.</p></div>
-<div class="feature-list"><div class="feature"><span class="feature-icon"><i data-lucide="shield-check"></i></span><span><strong>Segurança em primeiro lugar</strong><small>Suas credenciais protegidas por padrão.</small></span></div><div class="feature"><span class="feature-icon"><i data-lucide="mail-check"></i></span><span><strong>Boas-vindas de verdade</strong><small>Uma mensagem especial ao criar sua conta.</small></span></div></div>
-<div class="panel-footer"><span>Construído com cuidado.</span><span class="footer-status"><span></span> Plataforma de demonstração</span></div><div class="decor decor-one"></div><div class="decor decor-two"></div>
-</section>
-<section class="form-panel"><div class="mobile-brand"><span class="brand-mark"><i data-lucide="sprout"></i></span> authflow</div><div class="form-wrap">
-<div class="form-heading"><span class="form-kicker" id="form-kicker">BEM-VINDA(O) DE VOLTA</span><h2 id="form-title">Que bom ter você aqui.</h2><p id="form-subtitle">Entre com seus dados para continuar.</p></div>
-<div class="tabs" role="tablist" aria-label="Tipo de acesso"><button class="tab active" id="login-tab" type="button" role="tab" aria-selected="true">Entrar</button><button class="tab" id="register-tab" type="button" role="tab" aria-selected="false">Criar conta</button></div>
-<form id="auth-form" novalidate>
-<div class="field hidden" id="name-field"><label for="name">Nome completo</label><div class="input-wrap"><i data-lucide="user-round"></i><input id="name" type="text" autocomplete="name" placeholder="Como podemos te chamar?" maxlength="100"></div><small class="field-error" id="name-error"></small></div>
-<div class="field"><label for="email">E-mail</label><div class="input-wrap"><i data-lucide="mail"></i><input id="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" maxlength="254" required></div><small class="field-error" id="email-error"></small></div>
-<div class="field"><label for="password">Senha</label><div class="input-wrap"><i data-lucide="lock-keyhole"></i><input id="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" required><button class="password-toggle" type="button" id="toggle-password" aria-label="Mostrar senha"><i data-lucide="eye"></i></button></div><small class="field-hint" id="password-hint">Use a senha cadastrada na sua conta.</small><small class="field-error" id="password-error"></small></div>
-<div class="notice hidden" id="notice" role="status" aria-live="polite"></div><button class="submit-button" type="submit" id="submit-button"><span id="submit-label">Entrar na minha conta</span><i data-lucide="arrow-up-right"></i></button>
-</form><p class="switch-copy" id="switch-copy">Ainda não tem uma conta? <button type="button" id="switch-action">Criar conta grátis</button></p>
-<div class="security-note"><i data-lucide="lock-keyhole"></i><span>Seus dados são transmitidos pela aplicação local de demonstração.</span></div></div>
-<div class="form-bottom"><span>© 2026 AuthFlow</span><span><i data-lucide="heart-handshake"></i> Feito para conectar</span></div></section></main></body></html>
+
+<body>
+    <main class="shell">
+
+        <section class="brand-panel">
+
+            <a class="brand" href="/">
+                <span class="brand-mark">
+                    <i data-lucide="sprout"></i>
+                </span>
+
+                <span>
+                    auth<span class="brand-light">flow</span>
+                </span>
+            </a>
+
+            <div class="brand-copy">
+                <span class="eyebrow">
+                    <span class="eyebrow-dot"></span>
+                    SIMPLES. SEGURO. CONECTADO.
+                </span>
+
+                <h1>
+                    Seu próximo<br>
+                    começo <em>começa aqui.</em>
+                </h1>
+
+                <p>
+                    Uma experiência de acesso pensada para ser simples,
+                    segura e feita para você.
+                </p>
+            </div>
+
+            <div class="feature-list">
+
+                <div class="feature">
+                    <span class="feature-icon">
+                        <i data-lucide="shield-check"></i>
+                    </span>
+
+                    <span>
+                        <strong>Segurança em primeiro lugar</strong>
+                        <small>
+                            Suas credenciais protegidas por padrão.
+                        </small>
+                    </span>
+                </div>
+
+                <div class="feature">
+                    <span class="feature-icon">
+                        <i data-lucide="mail-check"></i>
+                    </span>
+
+                    <span>
+                        <strong>Boas-vindas de verdade</strong>
+                        <small>
+                            Uma mensagem especial ao criar sua conta.
+                        </small>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="panel-footer">
+                <span>Construído com cuidado.</span>
+
+                <span class="footer-status">
+                    <span></span>
+                    Plataforma de demonstração
+                </span>
+            </div>
+
+            <div class="decor decor-one"></div>
+            <div class="decor decor-two"></div>
+
+        </section>
+
+        <section class="form-panel">
+
+            <div class="mobile-brand">
+                <span class="brand-mark">
+                    <i data-lucide="sprout"></i>
+                </span>
+
+                authflow
+            </div>
+
+            <div class="form-wrap">
+
+                <div class="form-heading">
+                    <span class="form-kicker" id="form-kicker">
+                        BEM-VINDA(O) DE VOLTA
+                    </span>
+
+                    <h2 id="form-title">
+                        Que bom ter você aqui.
+                    </h2>
+
+                    <p id="form-subtitle">
+                        Entre com seus dados para continuar.
+                    </p>
+                </div>
+
+                <div
+                    class="tabs"
+                    role="tablist"
+                    aria-label="Tipo de acesso"
+                >
+                    <button
+                        class="tab active"
+                        id="login-tab"
+                        type="button"
+                        role="tab"
+                        aria-selected="true"
+                    >
+                        Entrar
+                    </button>
+
+                    <button
+                        class="tab"
+                        id="register-tab"
+                        type="button"
+                        role="tab"
+                        aria-selected="false"
+                    >
+                        Criar conta
+                    </button>
+                </div>
+
+                <form id="auth-form" novalidate>
+
+                    <div class="field hidden" id="name-field">
+                        <label for="name">Nome completo</label>
+
+                        <div class="input-wrap">
+                            <i data-lucide="user-round"></i>
+
+                            <input
+                                id="name"
+                                type="text"
+                                autocomplete="name"
+                                placeholder="Como podemos te chamar?"
+                                maxlength="100"
+                            >
+                        </div>
+
+                        <small class="field-error" id="name-error"></small>
+                    </div>
+
+                    <div class="field">
+                        <label for="email">E-mail</label>
+
+                        <div class="input-wrap">
+                            <i data-lucide="mail"></i>
+
+                            <input
+                                id="email"
+                                type="email"
+                                autocomplete="email"
+                                placeholder="voce@exemplo.com"
+                                maxlength="254"
+                                required
+                            >
+                        </div>
+
+                        <small class="field-error" id="email-error"></small>
+                    </div>
+
+                    <div class="field">
+                        <label for="password">Senha</label>
+
+                        <div class="input-wrap">
+                            <i data-lucide="lock-keyhole"></i>
+
+                            <input
+                                id="password"
+                                type="password"
+                                autocomplete="current-password"
+                                placeholder="Digite sua senha"
+                                required
+                            >
+
+                            <button
+                                class="password-toggle"
+                                type="button"
+                                id="toggle-password"
+                                aria-label="Mostrar senha"
+                            >
+                                <i data-lucide="eye"></i>
+                            </button>
+                        </div>
+
+                        <small class="field-hint" id="password-hint">
+                            Use a senha cadastrada na sua conta.
+                        </small>
+
+                        <small
+                            class="field-error"
+                            id="password-error"
+                        ></small>
+                    </div>
+
+                    <div
+                        class="notice hidden"
+                        id="notice"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
+                    <button
+                        class="submit-button"
+                        type="submit"
+                        id="submit-button"
+                    >
+                        <span id="submit-label">
+                            Entrar na minha conta
+                        </span>
+
+                        <i data-lucide="arrow-up-right"></i>
+                    </button>
+
+                </form>
+
+                <p class="switch-copy" id="switch-copy">
+                    Ainda não tem uma conta?
+                    <button type="button" id="switch-action">
+                        Criar conta grátis
+                    </button>
+                </p>
+
+                <div class="security-note">
+                    <i data-lucide="lock-keyhole"></i>
+
+                    <span>
+                        Seus dados são transmitidos pela aplicação local
+                        de demonstração.
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="form-bottom">
+                <span>© 2026 AuthFlow</span>
+
+                <span>
+                    <i data-lucide="heart-handshake"></i>
+                    Feito para conectar
+                </span>
+            </div>
+
+        </section>
+
+    </main>
+</body>
+
+</html>
